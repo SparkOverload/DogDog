@@ -1,0 +1,556 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Css/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Css/mainpage.css">
+    <link rel="stylesheet" type="text/css" href="~/Css/sweetalert.css">
+</head>
+<body class="w3-light-gray">
+    <!-- Icon Bar (Sidenav - hidden on small screens) -->
+    <nav class="w3-sidenav w3-center w3-small w3-hide-small w3-leftbar w3-border-black">
+        <!-- Avatar image in top left corner -->
+        @if (ViewBag.proimg != null)
+        {
+            <img src="~/Img/ProfileImage/@ViewBag.proimg" style="width:100%">
+        }
+        else
+        {
+            <img src="~/Img/ProfileImage/Avatar.jpg" style="width:100%">
+        }
+        @if (ViewBag.fname != null) {
+            <h6><b>Welcome</b></h6>
+            <h6><b>@ViewBag.fname</b></h6>
+            <h6><b><i class="fa fa-circle w3-medium" style="color:lightgreen"></i> Online Now</b></h6>
+        }
+        else
+        {
+            <h6><b>Hello guy !!</b></h6>
+            <h6><b>Come to joint</b></h6>
+        }
+        <a class="w3-padding-large w3-hover-black @if (ViewBag.Title == "Dog Dog") {<text>w3-black</text>}" href="@Url.Action("MainPage", "Main")">
+            <i class="fa fa-home w3-xxlarge"></i>
+            <p><b>Home</b></p>
+        </a>
+        <a class="w3-padding-large w3-hover-black @if (ViewBag.Title == "Puppy") {<text>w3-black</text>}" href="@Url.Action("PuppyPage", "Puppy")">
+            <i class="fa fa-paw w3-xxlarge"></i>
+            <p><b>Puppy</b></p>
+        </a>
+        <a class="w3-padding-large w3-hover-black @if (ViewBag.Title == "Petshop") {<text>w3-black</text>}" href="@Url.Action("PetshopPage", "Petshop")">
+            <i class="fa fa-shopping-basket w3-xxlarge"></i>
+            <p><b>Petshop</b></p>
+        </a>
+        <a class="w3-padding-large w3-hover-black @if (ViewBag.Title == "Totalprice") {<text>w3-black</text>}" href="@Url.Action("TotalpricePage", "Totalprice")">
+            <i class="fa fa-cart-arrow-down w3-xxlarge"></i>
+            <p><b>Total</b></p>
+        </a>
+        @if (ViewBag.u_id != null)
+        {
+            <a class="w3-padding-large w3-hover-red" href="#modal_settings" data-toggle="modal">
+                <i class="fa fa-gear w3-xxlarge"></i>
+                <p><b>Settings</b></p>
+            </a>
+        }
+        else
+        {
+            <a class="w3-padding-large w3-hover-red" href="#modal_login" data-toggle="modal">
+                <i class="fa fa-sign-in w3-xxlarge"></i>
+                <p><b>Signin/Signup</b></p>
+            </a>
+        }
+    </nav>
+
+    <!-- Modal sgnin&&signup -->
+    <div id="modal_login" class="w3-modal" style="display: none;">
+        <div class="w3-modal-content" style="max-width:350px">
+            <div class="w3-container">
+                <div class="w3-row">
+                    <div class="w3-col s6">
+                        <a href="javascript:void(0)" onclick="openTab(event, 'SignIn');">
+                            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-black" style="width:100%">SignIn</div>
+                        </a>
+                    </div>
+                    <div class="w3-col s6">
+                        <a href="javascript:void(0)" onclick="openTab(event, 'SignUp');">
+                            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" style="width:100%">SignUp</div>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="SignIn" class="w3-container tab01">
+                    <header class="w3-container">
+                        <h2>SignIn <i class="fa fa-sign-in w3-large"></i></h2>
+                    </header>
+                    <div class="w3-row" style="padding:2%">
+                        <center>
+                            <div class="card w3-white">
+                                <img src="~/Img/ProfileImage/Avatar.jpg" style="width:100%">
+                            </div>
+                        </center>
+                    </div>
+                    <div class="w3-row" style="padding:3%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Username : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="Enter Username" id="username_signin" name="username_signin" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:3%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Password : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="password" placeholder="Enter Password" id="password_signin" name="password_signin" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <center><a class="w3-btn w3-black" id="btn_signin" name="btn_signin"> Login </a></center>
+                    </div>
+                </div>
+
+                <div id="SignUp" class="w3-container tab01" style="display:none">
+                    <header class="w3-container">
+                        <h2>SignUp <i class="fa fa-save w3-large"></i></h2>
+                        <div class="alert alert-danger" id="pwd_match_hiden" style="display:none;">
+                            <strong>คำเตือน!</strong> โปรดกรอก รหัสผ่านให้เหมือนกันทั้ง 2 ช่อง.
+                        </div>
+                    </header>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Username : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="Enter Username" id="username_signup" name="username_signup" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Password : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="password" placeholder="Enter Password" id="password_signup" name="password_signup" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Pass-Con: </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="password" placeholder="Enter Password" id="password_c_signup" name="password_c_signup" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Email: </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="Enter Email" id="email_signup" name="email_signup" style="width:100%">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <label style="padding:0% 7%"><b><h style="color:Red">*</h>Gender <h style="color:Red">(must choose)</h></b></label>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <center>
+                            <input type="radio" name="gender_signup" value=1 checked> Male
+                            <input type="radio" name="gender_signup" value=2> Female
+                            <input type="radio" name="gender_signup" value=3> Other
+                        </center>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <center><a class="w3-btn w3-black" id="btn_signup" name="btn_signup"> Save </a></center>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal editprofile && signout -->
+    <div id="modal_settings" class="w3-modal" style="display: none">
+        <div class="w3-modal-content" style="max-width:350px">
+            <div class="w3-container">
+                <div class="w3-row">
+                    <div class="w3-col s4">
+                        <a href="javascript:void(0)" onclick="openTab(event, 'Edit_profile');">
+                            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-black" style="width:100%">Edit Profile</div>
+                        </a>
+                    </div>
+                    <div class="w3-col s4">
+                        <a href="javascript:void(0)" onclick="openTab(event, 'Security_acc');">
+                            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" style="width:100%">Security</div>
+                        </a>
+                    </div>
+                    <div class="w3-col s4">
+                        <a href="javascript:void(0)" onclick="openTab(event, 'Signout');">
+                            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding" style="width:100%">SignOut</div>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="Edit_profile" class="w3-container tab01">
+                    <header class="w3-container">
+                        <h2>Your Profile <i class="fa fa-user w3-large"></i></h2>
+                    </header>
+                    <div class="w3-row" style="padding:1%">
+                        <center>
+                            <div class="card w3-white fileUpload">
+                                <img src="~/Img/ProfileImage/@ViewBag.proimg" style="width:100%">
+                                <input type="file" class="upload file" id="up_pic" name="up_pic" style="width:100%;height:100%" />
+                            </div>
+                        </center>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> F.Name : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="Enter F.Name" id="p_fname" name="p_fname" style="width:100%" value="@ViewBag.fname">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> L.Name : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="Enter L.Name" id="p_lname" name="p_lname" style="width:100%" value="@ViewBag.lname">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Age : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="18" id="p_age" name="p_age" style="width:25%" value="@ViewBag.age">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Address : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <textarea id="p_add" name="p_add" rows="3" style="width:100%;resize: none">@ViewBag.address</textarea>
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Province : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <select id="p_province" name="p_province" style="width:100%">
+                                <option value="">เลือกจังหวัด</option>
+                                @RenderPage("~/RenderData/province.cshtml")
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> District : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <select id="p_district" name="p_district" style="width:100%">
+                                <option value="">เลือกอำเภอ</option>
+                                @RenderPage("~/RenderData/district.cshtml")
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Mobile : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="18" id="p_tel" name="p_tel" style="width:100%" value="@ViewBag.tel">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:1%">
+                        <div class="w3-col s4">
+                            <label style="font-size:16px"> Email : </label>
+                        </div>
+                        <div class="w3-col s8">
+                            <input type="text" placeholder="18" id="p_email" name="p_email" style="width:100%" value="@ViewBag.email">
+                        </div>
+                    </div>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s6">
+                            <center><a class="w3-btn w3-black" data-dismiss="modal" style="width:70%">Cancel</a></center>
+                        </div>
+                        <div class="w3-col s6">
+                            <center><a class="w3-btn w3-red" id="btn_update_p" name="btn_update_p" style="width:70%">Update</a></center>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Security_acc" class="w3-container tab01" style="display:none">
+                    <header class="w3-container">
+                        <h2>Accout Settings <i class="fa fa-cogs w3-large"></i></h2>
+                    </header>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s6">
+                            <center><a class="w3-btn w3-red" data-dismiss="modal" style="width:70%">No</a></center>
+                        </div>
+                        <div class="w3-col s6">
+                            <center><a class="w3-btn w3-black" data-dismiss="modal" style="width:70%">Yes</a></center>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Signout" class="w3-container tab01" style="display:none">
+                    <header class="w3-container">
+                        <h2>SignOut <i class="fa fa-sign-out w3-large"></i></h2>
+                    </header>
+                    <div class="w3-row" style="padding:2%">
+                        <div class="w3-col s6">
+                            <center><a class="w3-btn w3-red" data-dismiss="modal" style="width:70%">No</a></center>
+                        </div>
+                        <div class="w3-col s6">
+                            <center><a class="w3-btn w3-black" href="@Url.Action("LogoutSubmit", "Main")" style="width:70%">Yes</a></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Navbar on small screens (Hidden on medium and large screens) -->
+    <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+        <ul class="w3-navbar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+            <li class="w3-left" style="width:20% !important"><a href="@Url.Action("MainPage", "Main")"><i class="fa fa-home w3-medium"></i></a></li>
+            <li class="w3-left" style="width:20% !important"><a href="@Url.Action("PuppyPage", "Puppy")"><i class="fa fa-paw w3-medium"></i></a></li>
+            <li class="w3-left" style="width:20% !important"><a href="@Url.Action("PetshopPage", "Petshop")"><i class="fa fa-shopping-basket w3-medium"></i></a></li>
+            <li class="w3-left" style="width:20% !important"><a href="@Url.Action("TotalpricePage", "Totalprice")"><i class="fa fa-cart-arrow-down w3-medium"></i></a></li>
+            @if (ViewBag.u_id != null)
+            {
+                <li class="w3-left" style="width:20% !important"><a href="#modal_settings" data-toggle="modal"><i class="fa fa-gear w3-medium"></i></a></li>
+            }
+            else
+            {
+                <li class="w3-left" style="width:20% !important"><a href="#modal_login" data-toggle="modal"><i class="fa fa-sign-in w3-medium"></i></a></li>
+            }
+        </ul>
+    </div>
+
+    <!-- Render page && Content Main -->
+    <div class="w3-padding-large" id="main">
+        @RenderBody()
+    </div>
+
+        @*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>RenderScript<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+        <script src="~/Js/jquery.min.js" type="text/javascript"></script>
+        <script src="~/Js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="~/Js/sweetalert.min.js" type="text/javascript"></script>
+        @RenderSection("PageJavascript", required: false)
+        <script type="text/javascript">
+
+            //--------------- fist reder value --------------//
+            $('#p_province').val('@ViewBag.province').trigger('change');
+            $('#p_district').val('@ViewBag.district').trigger('change');
+            //---------------- opentab ---------------------//
+            function openTab(evt, tab) {
+              var i, x, tablinks;
+              x = document.getElementsByClassName("tab01");
+              for (i = 0; i < x.length; i++) {
+                 x[i].style.display = "none";
+              }
+              tablinks = document.getElementsByClassName("tablink");
+              for (i = 0; i < x.length; i++) {
+                 tablinks[i].className = tablinks[i].className.replace(" w3-border-black", "");
+              }
+              document.getElementById(tab).style.display = "block";
+              evt.currentTarget.firstElementChild.className += " w3-border-black";
+            }
+
+            //---------------- button signin ---------------------//
+
+            $("#btn_signin").click(function () {
+                var user = $("#username_signin").val();
+                var pwd = $("#password_signin").val();
+
+                $.ajax({
+                    url: '@Url.Action("LoginSubmit", "Main")',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({
+                        user: user,
+                        pwd: pwd,
+                    }),
+                    success: function (result) {
+                        var detail = result.split(':')[1];
+                        if (result.startsWith("Success")) {
+                            swal({
+                                title: detail,
+                                type: "success",
+                                confirmButtonColor: "#000000",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            },
+                            function () {
+                                location.reload();
+                            });
+                        } else {
+                            swal({
+                                title: detail,
+                                type: "error",
+                                confirmButtonColor: "#000000",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            },
+                            function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            });
+
+            //---------------- button signup ---------------------//
+
+            $("#btn_signup").click(function () {
+                var user = $("#username_signup").val();
+                var pwd = $("#password_signup").val();
+                var pwdc = $("#password_c_signup").val();
+                var email = $("#email_signup").val();
+                var gender = $("input[name=gender_signup]:checked").val();
+
+                $.ajax({
+                    url: '@Url.Action("RegisterSignUp", "Profile")',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({
+                        user1: user,
+                        pwd1: pwd,
+                        email: email,
+                        gender1: gender
+                    }),
+                    success: function (result) {
+                        var detail = result.split(':')[1];
+                        if (result.startsWith("Success")) {
+                            swal({
+                                title: detail,
+                                type: "success",
+                                confirmButtonColor: "#000000",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            },
+                            function () {
+                                location.reload();
+                            });
+                        } else {
+                            swal({
+                                title: detail,
+                                type: "error",
+                                confirmButtonColor: "#000000",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            },
+                            function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            });
+
+            //---------------- validate pwd and pwdc ---------------------//
+
+            $("#password_signup").change(function () {
+                if ($("#password_signup").val() == $("#password_c_signup").val()) {
+                    $('#pwd_match_hiden').slideUp();
+                } else {
+                    $('#pwd_match_hiden').slideDown();
+
+                }
+            });
+
+            $("#password_c_signup").change(function () {
+                if ($("#password_signup").val() == $("#password_c_signup").val()) {
+                    $('#pwd_match_hiden').slideUp();
+                } else {
+                    $('#pwd_match_hiden').slideDown();
+                }
+            });
+
+            //---------------- filter district from province ---------------------//
+
+            var district_text = '@Html.Raw(System.Text.RegularExpressions.Regex.Replace(RenderPage("~/RenderData/district.cshtml").ToString(), @"\t|\n|\r", ""))';
+            $('#p_province').on('change', function () {
+                $('#p_district').prop('disabled', false);
+                if ($(this).val()) {
+                    $('#p_district').html('<option value="" data-pid="' + $(this).val() + '" selected>เลือกอำเภอ</option>' + district_text);
+                    $('#p_district option[data-pid!="' + $(this).val() + '"]').remove();
+                }
+                else {
+                    $('#p_district').html('<option value="" selected>choose your district</option>');
+                    $('#p_district').prop('disabled', true);
+                }
+                $('#p_district').trigger('change');
+            });
+
+            //-------------------- button update profile --------------------------//
+            $("#btn_update_p").click(function () {
+
+                var data = new FormData();
+                var up_pic = $('#up_pic')[0].files[0]
+                var p_fname = $('#p_fname').val();
+                var p_lname = $('#p_lname').val();
+                var p_age = $('#p_age').val();
+                var p_tel = $('#p_tel').val();
+                var p_add = $('#p_add').val();
+                var p_province = $('#p_province').val();
+                var p_district = $('#p_district').val();
+                var p_email = $('#p_email').val();
+                //------------------------------------------//
+                data.append("up_pic", up_pic);
+                data.append("p_fname", p_fname);
+                data.append("p_lname", p_lname);
+                data.append("p_age", p_age);
+                data.append("p_tel", p_tel);
+                data.append("p_add", p_add);
+                data.append("p_province", p_province);
+                data.append("p_district", p_district);
+                data.append("p_email", p_email);
+
+                $.ajax({
+                    url: '@Url.Action("UpdateProfile", "Profile")',
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        var detail = result.split(':')[1];
+                        if (result.startsWith("Success")) {
+                            swal({
+                                title: detail,
+                                type: "success",
+                                confirmButtonColor: "#000000",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            },
+                            function () {
+                                window.location.reload();
+                            });
+                        } else if (result.startsWith("Error")) {
+                            swal({
+                                title: detail,
+                                type: "error",
+                                confirmButtonColor: "#000000",
+                                confirmButtonText: "Ok",
+                                closeOnConfirm: true
+                            });
+                        }
+                    }
+                });
+            });
+
+        </script>
+        @*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>RenderScript<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+        
+</body>
+</html>

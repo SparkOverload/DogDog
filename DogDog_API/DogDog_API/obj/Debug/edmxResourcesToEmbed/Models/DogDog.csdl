@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DogDogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="proflie_user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="lname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="age" Type="Int32" />
+    <Property Name="district" Type="Int32" />
+    <Property Name="province" Type="Int32" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="date_signin" Type="DateTime" Precision="3" />
+    <Property Name="tel" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gender" Type="Int32" />
+    <Property Name="id_user" Type="Int32" />
+    <Property Name="url_pro_img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="date_signup" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="user" Relationship="Self.FK_proflie_user_user" FromRole="proflie_user" ToRole="user" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="role" Type="Int32" />
+    <Property Name="online" Type="Int32" />
+    <NavigationProperty Name="proflie_user" Relationship="Self.FK_proflie_user_user" FromRole="user" ToRole="proflie_user" />
+  </EntityType>
+  <Association Name="FK_proflie_user_user">
+    <End Role="user" Type="Self.user" Multiplicity="0..1" />
+    <End Role="proflie_user" Type="Self.proflie_user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="proflie_user">
+        <PropertyRef Name="id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DogDogEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="proflie_user" EntityType="Self.proflie_user" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK_proflie_user_user" Association="Self.FK_proflie_user_user">
+      <End Role="user" EntitySet="users" />
+      <End Role="proflie_user" EntitySet="proflie_user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
